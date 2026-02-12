@@ -15,7 +15,7 @@ public class CompleteTaskUseCase {
         Task task = repository.findById(taskId);
 
         if (task == null) {
-            throw new RuntimeException("Task with id " + taskId + " not found");
+            throw new TaskNotFoundException(taskId);
         }
 
         task.completeTask();

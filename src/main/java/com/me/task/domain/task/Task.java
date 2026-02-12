@@ -8,6 +8,10 @@ public class Task {
 
     public Task (Integer id, String description) {
 
+        if (description == null || description.isBlank()) {
+            throw new IllegalArgumentException("Description can not be blank");
+        }
+
         this.id = id;
         this.description = description;
         this.status = TaskStatus.ON_GOING;
@@ -44,6 +48,13 @@ public class Task {
 
         this.status = TaskStatus.COMPLETED;
 
+    }
+
+    public void assignId(Integer id) {
+        if (this.id != null) {
+            throw new IllegalStateException("Id already assigned");
+        }
+        this.id = id;
     }
 
 }
