@@ -3,12 +3,16 @@ package com.me.task.interfaces.task;
 import com.me.task.app.task.CompleteTaskUseCase;
 import com.me.task.app.task.CreateTaskUseCase;
 import com.me.task.domain.task.Task;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tasks")
+@Tag(name = "Tasks", description = "Tasks management")
 public class TaskController {
 
     private final CompleteTaskUseCase completeTaskUseCase;
@@ -19,6 +23,7 @@ public class TaskController {
         this.createTaskUseCase = createTaskUseCase;
     }
 
+    @Operation(summary = "Create a task")
     @PostMapping
     public ResponseEntity<CreateTaskResponse> createTask(@RequestBody CreateTaskRequest request) {
 
