@@ -26,7 +26,7 @@ public class CreateTaskUseCaseTest {
         Task task = createTaskUseCase.execute("Studiyng");
 
         assertNotNull(task);
-        assertEquals("Intentional error", task.getDescription());
+        assertEquals("Studiyng", task.getDescription());
 
         verify(repository, times(1)).save(task);
 
