@@ -1,4 +1,4 @@
-package com.me.task.interfaces.task.config;
+package com.me.task.interfaces.config;
 
 import com.me.task.app.task.CompleteTaskUseCase;
 import com.me.task.app.task.CreateTaskUseCase;
