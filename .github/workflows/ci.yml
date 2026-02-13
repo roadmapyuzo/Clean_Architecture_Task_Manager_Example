@@ -1,8 +1,8 @@
-name: Java CI
+name: Testing automatic pullrequest after succes
 
 on:
   push:
-    branches: [master]
+    branches: [test]
 
 jobs:
   build:
@@ -20,3 +20,13 @@ jobs:
 
       - name: Build and test
         run: mvn clean test
+
+      - name: Create pull request to master
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'create pr after success'
+          branch: test
+          base: master
+          title: "update master"
+          body: "Automated PR from CI after tests passed"
