@@ -6,3 +6,4 @@ goals achieved
 * Global exception handler
 * Dependency injection via constructor
 * In memory repository for end-point tests
+* Swagger
