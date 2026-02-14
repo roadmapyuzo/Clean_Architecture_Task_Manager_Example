@@ -24,12 +24,11 @@ jobs:
         run: mvn clean test
 
       - name: Create pull request to master
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
-          commit-message: 'create pr after success'
-          branch: test
-          base: master
-          title: "update master"
-          body: "Automated PR from CI after tests passed"
-          delete-branch: 'false'
+        run: |
+          gh pr create \
+          -B master \
+          -H test \
+          --title "Update master" \
+          --body "Automated PR from CI after tests passed"
+        env:
+         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
