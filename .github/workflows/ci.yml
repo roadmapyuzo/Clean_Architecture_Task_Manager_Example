@@ -29,6 +29,6 @@ jobs:
           -B master \
           -H test \
           --title "Update master" \
-          -- body "Automated PR from CI after tests passed"
+          --body "Automated PR from CI after tests passed"
         env:
          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
