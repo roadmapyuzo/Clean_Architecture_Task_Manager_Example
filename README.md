@@ -7,3 +7,5 @@ goals achieved
 * Dependency injection via constructor
 * In memory repository for end-point tests
 * Swagger
+* CI Workflow 
+* Automatic pull-request generation (test -> master) after success workflow 
