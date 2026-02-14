@@ -32,3 +32,4 @@ jobs:
           base: master
           title: "update master"
           body: "Automated PR from CI after tests passed"
+          delete-branch: 'false'
