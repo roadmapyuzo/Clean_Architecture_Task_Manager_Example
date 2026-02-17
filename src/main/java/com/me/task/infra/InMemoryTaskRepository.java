@@ -3,7 +3,9 @@ package com.me.task.infra;
 import com.me.task.app.task.TaskRepository;
 import com.me.task.domain.task.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,6 +27,13 @@ public class InMemoryTaskRepository implements TaskRepository {
         }
 
         database.put(task.getId(), task);
+
+    }
+
+    @Override
+    public List<Task> findAll() {
+
+        return new ArrayList<>(database.values());
 
     }
 

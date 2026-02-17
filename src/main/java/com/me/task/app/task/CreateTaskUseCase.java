@@ -10,13 +10,15 @@ public class CreateTaskUseCase {
         this.repository = repository;
     }
 
-    public Task execute (String description) {
+    public TaskOutPut execute (String description) {
 
         Task task = new Task(null, description);
 
         repository.save(task);
 
-        return task;
+        TaskOutPut output = new TaskOutPut(task.getId(), task.getDescription(), task.getStatus().name());
+
+        return output;
 
     }
 
