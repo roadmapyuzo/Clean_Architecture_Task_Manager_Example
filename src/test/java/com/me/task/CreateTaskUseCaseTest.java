@@ -1,10 +1,12 @@
 package com.me.task;
 
 import com.me.task.app.task.CreateTaskUseCase;
+import com.me.task.app.task.TaskOutPut;
 import com.me.task.app.task.TaskRepository;
 import com.me.task.domain.task.Task;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,12 +25,18 @@ public class CreateTaskUseCaseTest {
     @Test
     void CreateTaskTest() {
 
-        Task task = createTaskUseCase.execute("Studiyng");
+        TaskOutPut task = createTaskUseCase.execute("Studiyng");
 
         assertNotNull(task);
-        assertEquals("Studiyng", task.getDescription());
+        assertEquals("Studiyng", task.description());
 
-        verify(repository, times(1)).save(task);
+        ArgumentCaptor<Task> captor = ArgumentCaptor.forClass(Task.class);
+
+        verify(repository, times(1)).save(captor.capture());
+
+        Task savedTask = captor.getValue();
+
+        assertEquals("Studiyng", savedTask.getDescription());
 
     }
 

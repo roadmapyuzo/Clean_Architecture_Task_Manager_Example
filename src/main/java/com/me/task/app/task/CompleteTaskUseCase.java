@@ -10,7 +10,7 @@ public class CompleteTaskUseCase {
         this.repository = repository;
     }
 
-    public Task execute(Integer taskId) {
+    public TaskOutPut execute(Integer taskId) {
 
         Task task = repository.findById(taskId);
 
@@ -22,7 +22,9 @@ public class CompleteTaskUseCase {
 
         repository.save(task);
 
-        return task;
+        TaskOutPut output = new TaskOutPut(task.getId(), task.getDescription(), task.getStatus().name());
+
+        return output;
 
     }
 
