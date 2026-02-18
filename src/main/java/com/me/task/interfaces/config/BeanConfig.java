@@ -3,7 +3,9 @@ package com.me.task.interfaces.config;
 import com.me.task.app.task.*;
 import com.me.task.infra.FakeBroker;
 import com.me.task.infra.InMemoryTaskRepository;
+import com.me.task.infra.RabbitMQMessageBroker;
 import com.me.task.infra.TaskCreationConsumer;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,12 +28,14 @@ public class BeanConfig {
     }
 
     @Bean
-    public MessageBroker MessageBroker(TaskCreationConsumer taskCreationConsumer) {
-        return new FakeBroker(taskCreationConsumer);
+    public MessageBroker MessageBroker(RabbitTemplate rabbitTemplate) {
+        System.out.println("Criando bean message broker");
+        return new RabbitMQMessageBroker(rabbitTemplate);
     }
 
     @Bean
     public RequestTaskCreationUseCase requestTaskCreationUseCase(MessageBroker messagebroker) {
+        System.out.println("Criando bean request task creation");
         return new RequestTaskCreationUseCase(messagebroker);
     }
 
