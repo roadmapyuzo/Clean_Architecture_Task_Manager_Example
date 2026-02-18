@@ -19,5 +19,12 @@ public class RabbitMQMessageBroker implements MessageBroker {
 
     }
 
+    @Override
+    public void publishWithExchange(String exchange, String routingKey, TaskCreationCommand command) {
+
+        rabbitTemplate.convertAndSend(exchange, routingKey, command);
+
+    }
+
 
 }

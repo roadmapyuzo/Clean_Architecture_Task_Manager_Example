@@ -16,7 +16,7 @@ public class RequestTaskCreationUseCase {
 
         TaskCreationCommand message = new TaskCreationCommand(requestId, description);
 
-        broker.publish(message);
+        broker.publishWithExchange("task.exchange", "task.test.key", message);
 
         return requestId;
 

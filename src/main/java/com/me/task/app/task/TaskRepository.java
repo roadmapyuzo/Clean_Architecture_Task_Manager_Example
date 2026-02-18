@@ -12,4 +12,8 @@ public interface TaskRepository {
 
     List<Task> findAll();
 
+    boolean saveProcessedId(String requestid);
+
+    boolean verifyProcessedId(String requestid);
+
 }

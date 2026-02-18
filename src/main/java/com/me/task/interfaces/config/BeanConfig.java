@@ -22,20 +22,21 @@ public class BeanConfig {
         return new CreateTaskUseCase(taskRepository);
     }
 
-    @Bean
-    public TaskCreationConsumer taskCreationConsumer(CreateTaskUseCase createTaskUseCase) {
-        return new TaskCreationConsumer(createTaskUseCase);
-    }
 
     @Bean
     public MessageBroker MessageBroker(RabbitTemplate rabbitTemplate) {
-        System.out.println("Criando bean message broker");
+
         return new RabbitMQMessageBroker(rabbitTemplate);
     }
 
     @Bean
+    public TaskCreationConsumer taskCreationConsumer(CreateTaskUseCase createTaskUseCase,  TaskRepository repository) {
+        return new TaskCreationConsumer(createTaskUseCase,  repository);
+    }
+
+    @Bean
     public RequestTaskCreationUseCase requestTaskCreationUseCase(MessageBroker messagebroker) {
-        System.out.println("Criando bean request task creation");
+
         return new RequestTaskCreationUseCase(messagebroker);
     }
 
