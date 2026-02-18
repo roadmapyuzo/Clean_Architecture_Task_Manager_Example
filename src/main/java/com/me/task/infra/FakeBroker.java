@@ -21,4 +21,11 @@ public class FakeBroker implements MessageBroker {
         new Thread(() -> consumer.consume(message)).start();
 
     }
+
+    @Override
+    public void publishWithExchange(String exchange, String routingKey, TaskCreationCommand command) {
+
+        System.out.println("Publishing message: " + command);
+
+    }
 }
