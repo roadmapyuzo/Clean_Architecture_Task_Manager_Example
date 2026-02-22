@@ -1,6 +1,8 @@
 package com.me.task.domain.task;
 
-public class Task {
+import com.me.task.domain.AggregateRoot;
+
+public class Task extends AggregateRoot {
 
     private Integer id;
     private String description;
@@ -47,6 +49,7 @@ public class Task {
         }
 
         this.status = TaskStatus.COMPLETED;
+        this.raise(new CompleteTaskEvent(this.id));
 
     }
 
