@@ -26,6 +26,15 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue taskOutboxQueue() {
+
+
+        return new Queue("task.outbox.queue", true);
+
+    }
+
+
+    @Bean
     public Queue taskTestQueue() {
         return new Queue("task.test.queue", true);
     }

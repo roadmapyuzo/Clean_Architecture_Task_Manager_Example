@@ -1,13 +1,20 @@
 package com.me.task.app.task;
 
+import com.me.task.app.DomainEventDispatcher;
+import com.me.task.domain.DomainEvent;
 import com.me.task.domain.task.Task;
+
+import java.util.List;
 
 public class CompleteTaskUseCase {
 
     private final TaskRepository repository;
 
-    public CompleteTaskUseCase(TaskRepository repository) {
+    private final DomainEventDispatcher eventDispatcher;
+
+    public CompleteTaskUseCase(TaskRepository repository,  DomainEventDispatcher eventDispatcher) {
         this.repository = repository;
+        this.eventDispatcher = eventDispatcher;
     }
 
     public TaskOutPut execute(Integer taskId) {
@@ -22,9 +29,10 @@ public class CompleteTaskUseCase {
 
         repository.save(task);
 
-        TaskOutPut output = new TaskOutPut(task.getId(), task.getDescription(), task.getStatus().name());
+        List<DomainEvent> events = task.pullEvents();
+        eventDispatcher.dispatch(events);
 
-        return output;
+        return new TaskOutPut(task.getId(), task.getDescription(), task.getStatus().name());
 
     }
 
