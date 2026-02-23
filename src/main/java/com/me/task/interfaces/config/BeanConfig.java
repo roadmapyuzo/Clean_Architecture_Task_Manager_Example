@@ -1,5 +1,7 @@
 package com.me.task.interfaces.config;
 
+import com.me.task.app.DomainEventDispatcher;
+import com.me.task.app.DomainEventHandler;
 import com.me.task.app.task.*;
 import com.me.task.infra.FakeBroker;
 import com.me.task.infra.InMemoryTaskRepository;
@@ -9,8 +11,22 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public CompleteTaskHandler completeTaskHandler() {
+        return new CompleteTaskHandler();
+    }
+
+    @Bean
+    public DomainEventDispatcher domainEventDispatcher(List<DomainEventHandler<?>> eventHandlers) {
+        return new DomainEventDispatcher(eventHandlers);
+    }
 
     @Bean
     public TaskRepository taskRepository() {
@@ -41,8 +57,8 @@ public class BeanConfig {
     }
 
     @Bean
-    public CompleteTaskUseCase completeTaskUseCase(TaskRepository taskRepository) {
-        return new CompleteTaskUseCase(taskRepository);
+    public CompleteTaskUseCase completeTaskUseCase(TaskRepository taskRepository, DomainEventDispatcher domainEventDispatcher) {
+        return new CompleteTaskUseCase(taskRepository, domainEventDispatcher);
     }
 
     @Bean
