@@ -25,7 +25,7 @@ public class EventBusRabbitMQ implements EventBus {
 
             String queue = eventRouter.resolveDestination(message.getType());
 
-            rabbitTemplate.convertAndSend(message.getType(), message.getPayload());
+            rabbitTemplate.convertAndSend(queue, message.getPayload());
             message.markAsPublished();
 
         }
