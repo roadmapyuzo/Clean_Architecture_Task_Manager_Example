@@ -2,11 +2,10 @@ package com.me.task.interfaces.config;
 
 import com.me.task.app.DomainEventDispatcher;
 import com.me.task.app.DomainEventHandler;
+import com.me.task.app.EventBus;
+import com.me.task.app.OutboxPublisher;
 import com.me.task.app.task.*;
-import com.me.task.infra.FakeBroker;
-import com.me.task.infra.InMemoryTaskRepository;
-import com.me.task.infra.RabbitMQMessageBroker;
-import com.me.task.infra.TaskCreationConsumer;
+import com.me.task.infra.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +18,34 @@ import java.util.concurrent.CompletableFuture;
 public class BeanConfig {
 
     @Bean
-    public CompleteTaskHandler completeTaskHandler() {
-        return new CompleteTaskHandler();
+    public EventRouter eventRouter() {
+        return new RabbitRouter();
+    }
+
+
+    @Bean
+    public OutBoxInMemoryRepository outBoxInMemoryRepository() {
+        return new OutBoxInMemoryRepository();
+    }
+
+    @Bean
+    public OutboxPublisher outboxPublisher(OutBoxInMemoryRepository outBoxInMemoryRepository) {
+        return new OutboxPublisherAdapter(outBoxInMemoryRepository);
+    }
+
+    @Bean
+    public EventBus eventBus(OutBoxInMemoryRepository outBoxInMemoryRepository , RabbitTemplate rabbitTemplate,EventRouter eventRouter) {
+        return new EventBusRabbitMQ(outBoxInMemoryRepository,rabbitTemplate,eventRouter);
+    }
+
+    @Bean
+    public OutboxScheduler outboxScheduler(EventBus eventBus) {
+        return new OutboxScheduler(eventBus);
+    }
+
+    @Bean
+    public CompleteTaskHandler completeTaskHandler(OutboxPublisher outboxPublisher) {
+        return new CompleteTaskHandler(outboxPublisher);
     }
 
     @Bean

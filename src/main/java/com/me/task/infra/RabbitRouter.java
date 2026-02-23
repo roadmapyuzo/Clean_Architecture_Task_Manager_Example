@@ -5,7 +5,7 @@ import java.util.Map;
 public class RabbitRouter implements EventRouter {
 
     private final Map<String, String> routingTable = Map.of(
-            "task.completed", "task.outbox.queue"
+            "task.complete", "task.outbox.queue"
     );
 
     @Override
